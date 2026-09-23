@@ -1,14 +1,42 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        console.log("login", { email, password });
+        setError("");
+        setLoading(true);
+
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.message || "Something went wrong");
+                setLoading(false);
+                return;
+            }
+
+            router.push("/dashboard");
+        } catch (err) {
+            console.error("Login error:", err);
+            setError("Could not reach the server. Try again.");
+            setLoading(false);
+        }
     }
 
     return (
@@ -28,7 +56,6 @@ export default function LoginPage() {
                 </div>
             </header>
 
-            {/* form */}
             <main className="flex-1 flex items-center justify-center px-6 py-16">
                 <div className="w-full max-w-sm">
                     <h1 className="text-2xl font-semibold text-[#1F2933] tracking-tight">
@@ -37,6 +64,12 @@ export default function LoginPage() {
                     <p className="mt-2 text-sm text-[#667085]">
                         Welcome back. Enter your details to continue.
                     </p>
+
+                    {error && (
+                        <div className="mt-5 rounded-md border border-[#E85D3F] bg-white px-3 py-2.5 text-sm text-[#E85D3F]">
+                            {error}
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="mt-8 space-y-5">
                         <div>
@@ -82,15 +115,15 @@ export default function LoginPage() {
 
                         <button
                             type="submit"
-                            className="w-full text-sm font-medium text-white bg-[#E85D3F] px-5 py-2.5 rounded-md hover:bg-[#d14e31] transition-colors"
+                            disabled={loading}
+                            className="w-full text-sm font-medium text-white bg-[#E85D3F] px-5 py-2.5 rounded-md hover:bg-[#d14e31] transition-colors disabled:opacity-60"
                         >
-                            Log in
+                            {loading ? "Logging in..." : "Log in"}
                         </button>
                     </form>
                 </div>
             </main>
 
-            {/* footer */}
             <footer className="border-t border-[#E5E7EB]">
                 <div className="max-w-5xl mx-auto px-6 py-6 text-sm text-[#667085]">
                     © {new Date().getFullYear()} GymTracker

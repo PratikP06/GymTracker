@@ -1,14 +1,10 @@
 import React from "react";
 
-// GymTracker landing page
-// colors: bg #F7F7F5, surface #FFFFFF, primary #1F2933, text #667085, accent #E85D3F, success #3A7D44, border #E5E7EB
-
 export default function GymTrackerLanding() {
   const year = new Date().getFullYear();
 
   return (
     <div className="min-h-screen bg-[#F7F7F5] font-sans antialiased">
-      {/* navbar */}
       <header className="border-b border-[#E5E7EB] bg-[#F7F7F5]">
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <span className="text-[#1F2933] font-semibold text-lg tracking-tight">
@@ -34,7 +30,6 @@ export default function GymTrackerLanding() {
         </div>
       </header>
 
-      {/* hero */}
       <section className="max-w-5xl mx-auto px-6 pt-20 pb-24">
         <div className="max-w-2xl">
           <h1 className="text-4xl sm:text-5xl font-semibold text-[#1F2933] leading-tight tracking-tight">
@@ -85,7 +80,6 @@ export default function GymTrackerLanding() {
         </div>
       </section>
 
-      {/* features */}
       <section
         id="features"
         className="max-w-5xl mx-auto px-6 py-20 border-t border-[#E5E7EB]"
@@ -119,7 +113,6 @@ export default function GymTrackerLanding() {
         </div>
       </section>
 
-      {/* footer */}
       <footer className="border-t border-[#E5E7EB]">
         <div className="max-w-5xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <span className="text-sm text-[#667085]">
